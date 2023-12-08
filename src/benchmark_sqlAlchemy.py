@@ -3,7 +3,7 @@ from sqlalchemy import  Column, Integer, String
 from sqlalchemy.orm import DeclarativeBase
 import time
 
-engine = create_engine('sqlite:///yellow.db')
+engine = create_engine('sqlite:///../datasets/yellow.db')
 
 def test(request):
     results_time = []
@@ -16,8 +16,9 @@ def test(request):
             
     return round(sum(results_time)/len(results_time), 2)
 
+print("\nSQLAlchemy benchmark\n")
 print("First SQL query: ")
-print(test("SELECT passenger_count, avg(total_amount) FROM yellow GROUP BY 1"))
+print(test("SELECT VendorID, count(*) FROM yellow GROUP BY 1"))
 
 print("Second SQL query: ")
 print(test("SELECT passenger_count, avg(total_amount) FROM yellow GROUP BY 1"))

@@ -1,7 +1,7 @@
 import sqlite3
 import time
 
-conn = sqlite3.connect('yellow.db')
+conn = sqlite3.connect('../datasets/yellow.db')
 
 cursor = conn.cursor()
 
@@ -12,6 +12,8 @@ def test(request):
         cursor.execute(request)
         results_time.append(time.time() - start)
     return round(sum(results_time)/len(results_time),2)
+
+print("\nSQLite benchmark\n")
 
 #first
 print("First SQL query: ")

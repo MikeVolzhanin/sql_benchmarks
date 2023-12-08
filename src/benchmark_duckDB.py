@@ -1,26 +1,25 @@
-import psycopg2
+import duckdb
+import pandas as pd
 import time
 
-conn = psycopg2.connect(
-    dbname="nyc_yellow_tiny",
-    user="postgres",
-    password="89194161213",
-    host="localhost",
-    port="5432"
-)
+conn = duckdb.connect(database=":memory:", read_only=False)
 
-cursor=conn.cursor()
+df = pd.read_csv("../datasets/nyc_yellow_tiny.csv")
+
+conn.register('yellow_taxi', df)
 
 def test(request):
     results_time = []
     for i in range(10):
         start = time.time()
-        cursor.execute(request)
+        result = conn.execute(request)
         results_time.append(time.time() - start)
     return round(sum(results_time)/len(results_time),2)
 
+print("\nDuckDB benchmark\n")
+
 print("First SQL query: ")
-print(test("SELECT passenger_count, avg(total_amount) FROM yellow_taxi GROUP BY 1"))
+print(test("SELECT VendorID, count(*) FROM yellow_taxi GROUP BY 1"))
 
 print("Second SQL query: ")
 print(test("SELECT passenger_count, avg(total_amount) FROM yellow_taxi GROUP BY 1"))
