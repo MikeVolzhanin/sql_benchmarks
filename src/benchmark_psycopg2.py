@@ -22,7 +22,7 @@ def test(request):
 print("\nPsycopg2 benchmark\n")
 
 print("First SQL query: ")
-print(test("SELECT VendorID, count(*) FROM yellow_taxi GROUP BY 1"))
+print(test("SELECT vendor_id, count(*) FROM yellow_taxi GROUP BY 1"))
 
 print("Second SQL query: ")
 print(test("SELECT passenger_count, avg(total_amount) FROM yellow_taxi GROUP BY 1"))
